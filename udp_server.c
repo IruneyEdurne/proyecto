@@ -10,7 +10,7 @@
 
 /********************* Type Definitions ************************/
 /******************* Constant Definitions **********************/
-#define SERVER_PORT 5000
+#define SERVER_PORT 5005
 #define BUFFSIZE 1024
 
 //
@@ -36,12 +36,14 @@ int main() {
         printf("Error while creating socket\n");
         return 1;
     }
+    
+     // recive the datagram
+    len = sizeof(clientaddr);
+    
+    
     serveraddr.sin_family = AF_INET;
     serveraddr.sin_addr.s_addr = INADDR_ANY;
     serveraddr.sin_port = htons(SERVER_PORT);
-    
-    // recive the datagram
-    len = sizeof(clientaddr);
     
 
     if (bind(sock, (struct sockaddr *)&serveraddr, sizeof(serveraddr))) {
@@ -60,10 +62,16 @@ int main() {
                        (struct sockaddr *)&clientaddr, &len);
             
             
-        
+        buffer[num] = '\0';
+                       
+        inet_ntop(AF_INET, &(clientaddr.sin_addr), str, INET_ADDRSTRLEN);
+
+        printf("New message from %s:%d -- %s\n", str, ntohs(clientaddr.sin_port), buffer);    
+            
+            
             
         // si recivo caracter t que calcule teperatura      
-         if (strcmp(buffer,"t") == 0){
+         if (buffer[0] == 't'){
              bme280Temperature(&T);
              T -= 150; 
              printf("Calibrated temp. = %3.2f C\n",(float)T/100.0);
@@ -75,16 +83,23 @@ int main() {
         } else if (strcmp(buffer,"h") == 0){
              bme280Humidity(&H);
              printf("Calibrated hum. = %2.2f%%\n",(float)H/1024.0);
+             
+             
+       
+             
+        // If receive x char, close socket:     
+        } else if (buffer[0] == 'x'){
+             printf("Closing socket...\n");
+             break;
+             
         } else {
             printf("No se que quieres\n");
         }
               
-             
-        buffer[num] = '\0';
-                       
-        inet_ntop(AF_INET, &(clientaddr.sin_addr), str, INET_ADDRSTRLEN);
-
-        printf("New message from %s:%d -- %s\n", str, ntohs(clientaddr.sin_port), buffer);
+    
+    
+        
+        
         
                        
         // Send echo back:
