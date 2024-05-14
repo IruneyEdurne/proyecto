@@ -1,0 +1,11 @@
+[Unit]
+Description= UDP echo server
+After=multi-user.target
+
+[Service]
+Type=simple
+ExecStart=/home/ADE-MASTER/Desktop/proyecto/udp_server
+Restart=no
+
+[Install]
+WantedBy=multi-user.target

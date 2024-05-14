@@ -23,9 +23,6 @@ static int calP1, calP2, calP3, calP4, calP5, calP6, calP7, calP8, calP9;
 static int calH1, calH2, calH3, calH4, calH5, calH6;
 
 
-
-
-
 //
 // Opens a file system handle to the I2C device
 // reads the calibration data and sets the device
