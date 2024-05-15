@@ -6,5 +6,5 @@ Servidor UDP en C que arranca con el sistema operativo Linux de la Raspberry Pi 
 
 
 ## Autoras ✒️
-Irune F.
-Edurne P.
+* Irune F.
+* Edurne P.
