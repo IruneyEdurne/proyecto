@@ -6,10 +6,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include "./bme280.h"
-#include "lcd.h"
+#include "../lib/bme280.h"
+#include "../lib/lcd.h"
 #include <time.h>
-#include "blink.h"
+#include "../lib/blink.h"
 
 /********************* Type Definitions ************************/
 /******************* Constant Definitions **********************/

@@ -9,13 +9,13 @@
 #include <string.h>
 #include <stdint.h>
 //libreria sensor
-#include "bme280.h"
+#include "../lib/bme280.h"
 //librería I2C
 //#include <wiringPiI2C.h>
 #include <fcntl.h>
 #include <linux/i2c-dev.h>
 #include <sys/ioctl.h>
-#include "lcd.h"
+#include "../lib/lcd.h"
 
 // delay between samples in microseconds
 #define DELAY 1000000
