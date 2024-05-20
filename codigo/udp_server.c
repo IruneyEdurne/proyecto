@@ -1,4 +1,3 @@
-//irune
 /********************** Include Files **************************/
 #include <arpa/inet.h>
 #include <netinet/in.h>
@@ -6,9 +5,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+//incluir la libreria del sensor
 #include "../lib/bme280.h"
+//incluir la libreria del lcd
 #include "../lib/lcd.h"
 #include <time.h>
+//incluir blink
 #include "../lib/blink.h"
 
 /********************* Type Definitions ************************/
@@ -236,23 +238,33 @@ int main() {
         // se imprime en mi fichero de texto los datos recopilados durante esos x minutos
         } else if (sscanf(buffer,"%s %d %s", comando, &minutos, filename) == 3 && strcmp(comando,"start") == 0){
             
+            //ruta donde se encuentra el fichero
              char ruta[100]= "/home/ADE-MASTER/Desktop/";
              strcat(filename, ".txt");
              strcat(ruta, filename);
+             //si no existe el fichero, se crea
              FILE *file = fopen(ruta, "a+");
-             
+             //escribe en el fichero
              fprintf(file, "fecha, hora, T (C), P (Pa), H (%%)\n");
              m = 0;
              
+             //está dentro del ciclo durante m minutos
              while (m < minutos){
+            //lee el valor de la temperatura
              bme280Temperature(&T);
              T -= 150;
+             //lee el valor de la presion
              bme280Pressure(&P);
+             //lee el valor de la humedad
              bme280Humidity(&H);
              
+            //escribe en el fichero la fecha actual
              fprintf(file, fecha());
+            //escribe en el fichero la temperatura
              fprintf(file, ", %3.2f, ",(float)T/100.0);
+            //escribe en el fichero la presion
              fprintf(file, "%6.2f, ",(float)P/256.0);
+            //escribe en el fichero la humedad
              fprintf(file, "%2.2f\n",(float)H/1024.0);
              
              m += 1;
@@ -271,8 +283,11 @@ int main() {
              strcat(buft," C");
              typeln(buft);
              
+             //espera 20 s
              sleep(20);
+             //limpia el lcd
              ClrLcd();
+
              //presion
              numfloat = (float)P/256.0;
              sprintf(bufp, "%6.2f", numfloat);
@@ -283,8 +298,11 @@ int main() {
              strcat(bufp," Pa");
              typeln(bufp);
              
+             //espera 20 s
              sleep(20);
+             //limpia el lcd
              ClrLcd();
+
              //humedad 
              numfloat = (float)H/1024.0;
              sprintf(bufh, "%2.2f", numfloat);
@@ -295,19 +313,25 @@ int main() {
              strcat(bufh," %");
              typeln(bufh);
             
+             //espera 20 s
              sleep(20);
+             //limpia el lcd
              ClrLcd();
               }
               
              fprintf(file, "\n");
-             
              fclose(file);
+
+            //cuando se termina el tiempo
+            //se indica en el lcd que el fichero se ha escrito
              lcdLoc(0x80);
              typeln(filename);
             
              lcdLoc(0xC0);
              typeln("ha sido escrito");
             
+            //cuando se termina el tiempo
+            //se imprime en la terminal que el fichero se ha escrito
              printf("Escritura de %s realizada con exito\n", filename);
                   
         // If receive x char, close socket:     

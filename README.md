@@ -12,8 +12,8 @@ En el proyecto se han utilizado:
 Para la realización del proyecto se han necesitado las siguientes herramientas de software:
 * GCC compiler: para compilar el código en C
 * App para teléfonos que actúe como UDP Client
-    * Android:[] ()
-    * Apple: [Network Debugger: TCP/UDP] (https://apps.apple.com/es/app/network-debugger-tcp-udp/id1562086552)
+    * Android:[UDP](https://play.google.com/store/apps/details?id=com.jamstudios.udp_sender)
+    * Apple: [Network Debugger: TCP/UDP](https://apps.apple.com/es/app/network-debugger-tcp-udp/id1562086552)
 
 
 ## Comenzando 🚀
