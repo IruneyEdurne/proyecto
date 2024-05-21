@@ -63,7 +63,7 @@ gcc -o ejecutable udp_server.c ../lib/bme280.c ../lib/lcd.c ../lib/blink.c -lwir
 Una vez inicializado el servidor, cada vez que se reciba un mensaje, la luz led parpadeará. Si el LED parpadea, pero no se imprime nada en el LCD, querrá decir que el comando escrito es incorrecto.
 
 **💡** Para establecer la conexión en la app que sirve como UDP client, hay que especificar la red en la que está conectado el servidor y su puerto.
-El puerto del server es el 5005, que se especifica al comienzo del archivo [udp_server.c](https://github.com/IruneyEdurne/proyecto/tree/main/codigo/udp_server.c):
+El puerto del server es el 5005, que se especifica al comienzo del archivo [udp_server.c](https://github.com/IruneyEdurne/proyecto/tree/main/codigo/udp_server.c).
 ```
 #define SERVER_PORT 5005
 ```
