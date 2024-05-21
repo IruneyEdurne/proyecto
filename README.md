@@ -32,7 +32,7 @@ Dentro del proyecto podrás encontrar las siguientes carpetas:
 
 ## Proyecto ⚙️
 
-La carpeta [ejemplo](https://github.com/IruneyEdurne/proyecto/tree/main/ejemplo) contiene un ejemplo sencillo para comprobar que el sensor lee los datos correctamente y que el LCD funciona. El programa final está en la carpeta [codigo](https://github.com/IruneyEdurne/proyecto/tree/main/codigo). 
+La carpeta [ejemplo](https://github.com/IruneyEdurne/proyecto/tree/main/ejemplo) contiene un ejemplo sencillo para comprobar que el sensor lee los datos correctamente y que el LCD funciona. El programa final es el archivo [udp_server.c](https://github.com/IruneyEdurne/proyecto/tree/main/codigo/udp_server.c). 
 
 ### [Ejemplo 📂](https://github.com/IruneyEdurne/proyecto/tree/main/ejemplo)
 
@@ -48,7 +48,7 @@ Los comando para interactuar con el servidor son los siguientes:
 * `print [archivo]`: Escribe la fecha actual y los parámetros de temperatura, humedad y presión medidos en este instante en el archivo `[archivo]`. Si este no existe en el directorio actual, lo crea. Si ya existía, comenzará a escribir en la última línea del archivo. En el LCD se imprimirá un aviso de que el archivo `[archivo]` ha sido escrito.
 * `start [minutos] [archivo]`: Escribe la fecha actual y los parámetros de temperatura, humedad y presión medidos durante `[minutos]` minutos en el archivo `[archivo]`. Si este no existe en el directorio actual, lo crea. Si ya existía, comenzará a escribir en la última línea del archivo. La escritura la hace cada minuto. Mostrará en el LCD, cambiando cada 20 segundos, la T, P y H que se están midiendo cada minuto. Al finalizar, en el LCD se imprimirá un aviso de que el archivo `[archivo]` ha sido escrito. Durante el tiempo en el que se realice la lectura, especificado por el parámetro `[minutos]`, cualquier comando que llegue será ignorado.
 
-**⚠️ ADVERTENCIA: Para que los comandos de print y start funcionen correctamente, deberás cambiar los campos de ruta archivo por una ruta válida en tu Raspberry.**
+**⚠️ ADVERTENCIA: Para que los comandos de print y start funcionen correctamente, deberás cambiar los campos de ruta al archivo por una ruta válida en tu Raspberry.**
 ```
 //ruta donde se encuentra el fichero
 char ruta[100]= "/mi/ruta/";
@@ -59,11 +59,19 @@ Para crear el ejecutable, utiliza el siguiente comando en la terminal:
 ```
 gcc -o ejecutable udp_server.c ../lib/bme280.c ../lib/lcd.c ../lib/blink.c -lwiringPi
 ```
+
 Una vez inicializado el servidor, cada vez que se reciba un mensaje, la luz led parpadeará. Si el LED parpadea, pero no se imprime nada en el LCD, querrá decir que el comando escrito es incorrecto.
 
-### Inicializar el UDP Server cuando arranque del sistema
+**💡Establecer la conexión del UDP client con el UDP server**
+Para establecer la conexión en la app que sirve como UDP client, hay que especificar la red en la que está conectado el servidor y su puerto.
+El puerto del server es el 5005, que se especifica al comienzo del archivo [udp_server.c](https://github.com/IruneyEdurne/proyecto/tree/main/codigo/udp_server.c):
+```
+#define SERVER_PORT 5005
+```
 
-Para que el UDP Service se inicie automáticamente al encender la Raspberry Pi, hay que crear un archivo de servicio. Al [archivo de servicio](https://github.com/IruneyEdurne/proyecto/tree/main/codigo/udp_server.service) proporcionado en este proyecto hay que cambiarle el campo `ExecStart` con el directorio en el que se haya creado el ejecutable.
+### Inicializar el UDP Server cuando arranque el sistema
+
+Para que el UDP Server se inicie automáticamente al encender la Raspberry Pi, hay que crear un archivo de servicio. Al [archivo de servicio](https://github.com/IruneyEdurne/proyecto/tree/main/codigo/udp_server.service) proporcionado en este proyecto hay que cambiarle el campo `ExecStart` con el directorio en el que se haya creado el ejecutable.
 
 ```
 ExecStart = /ruta/al/ejecutable
