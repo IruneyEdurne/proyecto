@@ -12,7 +12,7 @@ En el proyecto se han utilizado:
 Para la realización del proyecto se han necesitado las siguientes herramientas de software:
 * GCC compiler: para compilar el código en C
 * App para teléfonos que actúe como UDP Client
-    * Android:[UDP](https://play.google.com/store/apps/details?id=com.jamstudios.udp_sender)
+    * Android: [UDP](https://play.google.com/store/apps/details?id=com.jamstudios.udp_sender)
     * Apple: [Network Debugger: TCP/UDP](https://apps.apple.com/es/app/network-debugger-tcp-udp/id1562086552)
 
 
@@ -30,13 +30,40 @@ Dentro del proyecto podrás encontrar las siguientes carpetas:
 * [ejemplo](https://github.com/IruneyEdurne/proyecto/tree/main/ejemplo): Ejemplo sencillo para comprobar la lectura del sensor.
 * [lib](https://github.com/IruneyEdurne/proyecto/tree/main/lib): Carpeta que contiene librerías utilizadas para el proyecto.
 
-### Ejemplo
+## Proyecto ⚙️
 
-### Código
+La carpeta [ejemplo](https://github.com/IruneyEdurne/proyecto/tree/main/ejemplo) contiene un ejemplo sencillo para comprobar que el sensor lee los datos correctamente y que el LCD funciona. El programa final está en la carpeta [codigo](https://github.com/IruneyEdurne/proyecto/tree/main/codigo). 
+
+### [Ejemplo 📂](https://github.com/IruneyEdurne/proyecto/tree/main/ejemplo)
+
+Al ejecutarlo, se mostrarán en la terminal de Linux los valores de temperatura, humedad y presión medidos. En la pantalla del LCD se mostrará la temperatura medida.
+
+### [Código 📂](https://github.com/IruneyEdurne/proyecto/tree/main/codigo)
+
+Los comando para interactuar con el servidor son los siguientes:
+
+* `t`: Muestra en el LCD la temperatura en ºC.
+* `h`: Muestra en el LCD el tanto por ciento (%) de humedad.
+* `p`: Muestra en el LCD la presión en Pa.
+* `print [archivo]`: Escribe la fecha actual y los parámetros de temperatura, humedad y presión medidos en este instante en el archivo `[archivo]`. Si este no existe en el directorio actual, lo crea. Si ya existía, comenzará a escribir en la última línea del archivo. En el LCD se imprimirá un aviso de que el archivo `[archivo]` ha sido escrito.
+* `start [minutos] [archivo]`: Escribe la fecha actual y los parámetros de temperatura, humedad y presión medidos durante `[minutos]` minutos en el archivo `[archivo]`. Si este no existe en el directorio actual, lo crea. Si ya existía, comenzará a escribir en la última línea del archivo. La escritura la hace cada minuto. Mostrará en el LCD, cambiando cada 20 segundos, la T, P y H que se están midiendo cada minuto. Al finalizar, en el LCD se imprimirá un aviso de que el archivo `[archivo]` ha sido escrito. Durante el tiempo en el que se realice la lectura, especificado por el parámetro `[minutos]`, cualquier comando que llegue será ignorado.
+
+**⚠️ ADVERTENCIA: Para que los comandos de print y start funcionen correctamente, deberás cambiar los campos de ruta archivo por una ruta válida en tu Raspberry.**
+```
+//ruta donde se encuentra el fichero
+char ruta[100]= "/mi/ruta/";
+```
+
+Para crear el ejecutable, utiliza el siguiente comando en la terminal:
+
+```
+gcc -o ejecutable udp_server.c ../lib/bme280.c ../lib/lcd.c ../lib/blink.c -lwiringPi
+```
+Una vez inicializado el servidor, cada vez que se reciba un mensaje, la luz led parpadeará. Si el LED parpadea, pero no se imprime nada en el LCD, querrá decir que el comando escrito es incorrecto.
 
 ### Inicializar el UDP Server cuando arranque del sistema
 
-Para que el UDP Service se inicie automáticamente al encender la Raspberry Pi, hay que crear un archivo de servicio. Al [archivo de servicio](https://github.com/IruneyEdurne/proyecto/tree/main/codigo/udp_server.service) proporcionado en este proyecto hay que cambiarle el campo _ExecStart_ con el directorio en el que se haya creado el ejecutable.
+Para que el UDP Service se inicie automáticamente al encender la Raspberry Pi, hay que crear un archivo de servicio. Al [archivo de servicio](https://github.com/IruneyEdurne/proyecto/tree/main/codigo/udp_server.service) proporcionado en este proyecto hay que cambiarle el campo `ExecStart` con el directorio en el que se haya creado el ejecutable.
 
 ```
 ExecStart = /ruta/al/ejecutable
