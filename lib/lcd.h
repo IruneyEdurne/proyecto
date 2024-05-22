@@ -31,20 +31,6 @@ void typeln(const char *s);
 int fd;  // seen by all subroutines
 
 
-//// float to string
-//void typeFloat(float myFloat)   {
-  //char buffer[20];
-  //sprintf(buffer, "%4.2f",  myFloat);
-  //typeln(buffer);
-//}
-
-//// int to string
-//void typeInt(int i)   {
-  //char array1[20];
-  //sprintf(array1, "%d",  i);
-  //typeln(array1);
-//}
-
 // clr lcd go home loc 0x80
 void ClrLcd(void)   {
   lcd_byte(0x01, LCD_CMD);
@@ -55,12 +41,6 @@ void ClrLcd(void)   {
 void lcdLoc(int line)   {
   lcd_byte(line, LCD_CMD);
 }
-
-// out char to LCD at current position
-//void typeChar(char val)   {
-
-  //lcd_byte(val, LCD_CHR);
-//}
 
 
 // this allows use of any size string
