@@ -8,6 +8,7 @@ En el proyecto se han utilizado:
 * Raspberry Pi 4
 * Sensor de humedad, temperatura y presión BME280
 * Diodo LED
+* Pantalla LCD
 
 Para la realización del proyecto se han necesitado las siguientes herramientas de software:
 * GCC compiler: para compilar el código en C
